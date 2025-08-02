@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Farmer Login</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #e8f5e9; /* light green */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .login-box {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        width: 350px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2e7d32;
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-weight: bold;
+        color: #388e3c;
+    }
+
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0 20px;
+        border: 1px solid #a5d6a7;
+        border-radius: 6px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #66bb6a;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background-color: #388e3c;
+    }
+
+    .back-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        text-decoration: none;
+        color: white;
+        background-color: #81c784;
+        padding: 6px 12px;
+        border-radius: 4px;
+    }
+</style>
+</head>
+<body>
+
+<a href="Dashboard_Login.html" class="back-btn">Back</a>
+
+<div class="login-box">
+    <h2>Farmer Login</h2>
+    <form action="login_farmer" method="post">
+        <label>Email</label>
+        <input type="text" name="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required>
+
+        <button type="submit">Submit</button>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Not registered? 
+            <a href="Register_Farmer_1.jsp" style="color: #2e7d32; font-weight: bold; text-decoration: none;">
+                Click here to Register
+            </a>
+        </p>
+    </form>
+</div>
+
+</body>
+</html>

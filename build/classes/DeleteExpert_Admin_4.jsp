@@ -1,0 +1,154 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="r3sys.com.DbConnection" %>
+<%@ page import="java.sql.*" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>View Experts</title>
+    <style>
+        body {
+            background-color: #e8f5e9; /* light green */
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #2e7d32;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #a5d6a7;
+            border-radius: 6px;
+            width: 200px;
+        }
+
+        input[type="submit"] {
+            padding: 8px 16px;
+            background-color: #66bb6a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #388e3c;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #c8e6c9;
+            padding: 10px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #a5d6a7;
+            color: #1b5e20;
+        }
+
+        td {
+            color: #2e7d32;
+        }
+
+        a {
+            color: #d32f2f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<form method="get" action="">
+    <input type="text" name="search" placeholder="Search by name">
+    <input type="submit" value="Search">
+</form>
+
+<%
+Connection con = null;
+PreparedStatement pstmt = null;
+ResultSet rs = null;
+
+try {
+    con = DbConnection.connect();
+
+    if (con == null) {
+        out.println("Database connection failed.");
+    } else {
+        String searchValue = request.getParameter("search");
+
+        if (searchValue != null && !searchValue.trim().isEmpty()) {
+            pstmt = con.prepareStatement("SELECT * FROM expert WHERE name LIKE ?");
+            pstmt.setString(1, "%" + searchValue + "%");
+        } else {
+            pstmt = con.prepareStatement("SELECT * FROM expert");
+        }
+
+        rs = pstmt.executeQuery();
+%>
+
+<h2>Expert List</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Specialization</th>
+        <th>Contact</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Action</th>
+    </tr>
+
+<%
+    while (rs.next()) {
+%>
+    <tr>
+        <td><%= rs.getInt("e_id") %></td>
+        <td><%= rs.getString("name") %></td>
+        <td><%= rs.getString("specialization") %></td>
+        <td><%= rs.getString("contact") %></td>
+        <td><%= rs.getString("email") %></td>
+        <td><%= rs.getString("password") %></td>
+        <td><a href="delete_expert.jsp?e_id=<%= rs.getInt("e_id") %>" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>
+    </tr>
+<%
+    }
+%>
+</table>
+
+<%
+    }
+} catch (Exception e) {
+    out.println("Error: " + e.getMessage());
+    e.printStackTrace();
+} finally {
+    if (rs != null) try { rs.close(); } catch (Exception e) {}
+    if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
+    if (con != null) try { con.close(); } catch (Exception e) {}
+}
+%>
+
+</body>
+</html>
